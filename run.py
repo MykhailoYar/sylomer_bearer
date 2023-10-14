@@ -14,4 +14,4 @@ price = {18:155.93, 28:183.77, 42:215.33, 55:258.02, 110:178.2,\
 
 from Start import start2
 start2(dim_sr,bh,energy,sylomer_type,\
-    numbers,price)
+    numbers, price)
