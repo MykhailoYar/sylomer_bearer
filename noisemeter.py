@@ -6,41 +6,41 @@ Created on Mon Oct 30 14:01:08 2017
 """
 
 # -*- coding: utf-8 -*-
+import csv
+import tkinter as tk
+from tkinter import filedialog
 
-level=1; #1-октавні, не1-третьоктавні
-q=[3,4,5]
-Measure=[['wall'],['ceil'], ['wall']]
-t=0
-t2=1
-if level!=1:
+level = 1  # 1-октавні, не1-третьоктавні
+q = [3, 4, 5]
+Measure = [['wall'], ['ceil'], ['wall']]
+t = 0
+t2 = 1
+if level != 1:
     f = ['Time', 'Leq A', 'Number', '20', '25', '31.5', '40', '50', '63', '80',
          '100', '125', '160', '200', '250', '315', '400', '500',
          '630', '800', '1000', '1250', '1600', '2000', '2500', '3150', '4000', '5000']
-    k = [12, len(f)-3, 2] # початок і кінець рядка з третьоктавними смугами;
+    k = [12, len(f) - 3, 2]  # початок і кінець рядка з третьоктавними смугами;
 else:
-    f = ['Time','Leq A' , 'Number','31.5', '63', '125', '250', '500', '1000', '2000', '4000', '8000', '16000']
-    k=[5, len(f)-3, 3]
-for i in range(1,len(q)):
-      q[i]=q[i]+q[i-1]
+    f = ['Time', 'Leq A', 'Number', '31.5', '63', '125', '250', '500', '1000', '2000', '4000', '8000', '16000']
+    k = [5, len(f) - 3, 3]
+for i in range(1, len(q)):
+    q[i] = q[i] + q[i - 1]
 
-      
-import tkinter as tk
-from tkinter import filedialog
-import csv
+
 root = tk.Tk()
 root.update()
 root.filename = filedialog.askopenfilenames(initialdir='/', title='Choose a file')
 # print (root.tk.splitlist(filez))
 root.destroy()
-filez = list(root.filename) #масив назв файлів
+filez = list(root.filename)  # масив назв файлів
 match2 = list()
-graph=list()        #список з вихідними даними
-final=list()
+graph = list()  # список з вихідними даними
+final = list()
 
 print(filez)
 final.append(f)
 final.append(Measure[0])
-#final.append(Measure [t] )
+# final.append(Measure [t] )
 for i in range(0, len(filez)):
     x_file = open(filez[i], "r")
     ansil = list([i])
@@ -48,13 +48,13 @@ for i in range(0, len(filez)):
     gl = list()
     leqa = list()
 
-    #import re
+    # import re
 
-    #pattern = r'[0-9][0-9]_[0-9][0-9]_[0-9][0-9].csv'
-    #match = re.findall(pattern, filez[i])
-    #print(match)
-    #mat = re.findall(pattern, filez[i])  # для масиву 3окт
-    #match2.append(mat)  # для масиву 3окт
+    # pattern = r'[0-9][0-9]_[0-9][0-9]_[0-9][0-9].csv'
+    # match = re.findall(pattern, filez[i])
+    # print(match)
+    # mat = re.findall(pattern, filez[i])  # для масиву 3окт
+    # match2.append(mat)  # для масиву 3окт
     import csv
 
     with open(filez[i]) as f:
@@ -78,12 +78,12 @@ for i in range(0, len(filez)):
             except ValueError:
                 None
 
-    graph.append(ansit[1]) # time
-    graph.append(leqa[len(leqa)- 1])  # leq A
-    graph.append(i + 1)     #number
-    graph=graph+ansil[len(ansil) - k[2]] #values
+    graph.append(ansit[1])  # time
+    graph.append(leqa[len(leqa) - 1])  # leq A
+    graph.append(i + 1)  # number
+    graph = graph + ansil[len(ansil) - k[2]]  # values
     final.append(graph)
-    graph=list()
+    graph = list()
 ##    if i==q[t]-1:
 ##        final.append(list())
 ##        m=Measure[t2]
@@ -94,13 +94,10 @@ for i in range(0, len(filez)):
 ##            if t2<len(Measure)-1:
 ##                t2+=1
 
-file= filedialog.asksaveasfile(mode='w', defaultextension=".csv")
-#with open(file_name+'.csv', 'w') as csvfile:
+file = filedialog.asksaveasfile(mode='w', defaultextension=".csv")
+# with open(file_name+'.csv', 'w') as csvfile:
 with file:
-    writer = csv.writer(file,delimiter=';', lineterminator='\n')
+    writer = csv.writer(file, delimiter=';', lineterminator='\n')
     for i in range(0, len(final)):
-        #2*len(q)-1
+        # 2*len(q)-1
         writer.writerow(final[i])
-
-
-

@@ -1,41 +1,42 @@
-w= \
-    [78, 131, 107,64,127,169,156,125, 144 ,"в37"]
+w = \
+    [78, 131, 107, 64, 127, 169, 156, 125, 144, "в37"]
 
-answer=[];
+answer = [];
 
 print(w[-1])
 print([])
-loadf=[];
+loadf = [];
 import numpy as np
-for i in range(0,len(w)-1):
-    load = w[i]/4
+
+for i in range(0, len(w) - 1):
+    load = w[i] / 4
     loadf.append(load)
-    if 35<=load<=48:
+    if 35 <= load <= 48:
         answer.append("Vibromat SM 60/50")
-        print("Vibromat SM 60/50","blue")
+        print("Vibromat SM 60/50", "blue")
     else:
-        if 49<=load<=100:
+        if 49 <= load <= 100:
             answer.append("Vibromat SM 120/50")
-            print("Vibromat SM 120/50","green")
+            print("Vibromat SM 120/50", "green")
         else:
-            if 101<=load<=198:
+            if 101 <= load <= 198:
                 answer.append("Vibromat SM 250/50")
-                print("Vibromat SM 250/50","brown")
+                print("Vibromat SM 250/50", "brown")
             else:
-                if 199<=load<=329:
+                if 199 <= load <= 329:
                     answer.append("Vibromat SM 470/50")
-                    print("Vibromat SM 470/50","red")
+                    print("Vibromat SM 470/50", "red")
                 else:
-                    if 330<=load<=794:
+                    if 330 <= load <= 794:
                         answer.append("Vibromat SM 940/50")
-                        print("Vibromat SM 940/50","grey")
-                    if load<35:
+                        print("Vibromat SM 940/50", "grey")
+                    if load < 35:
                         answer.append(" недоVibromat SM 60/50")
-                        print(" недоVibromat SM 60/50","blue")
+                        print(" недоVibromat SM 60/50", "blue")
 print(answer)
-answer=sorted(answer)
+answer = sorted(answer)
 values, counts = np.unique(answer, return_counts=True)
-d=dict()
-for i in range(0,len(values)):
-    d.update({values[i]:counts[i]*4})
+d = dict()
+for i in range(0, len(values)):
+    d.update({values[i]: counts[i] * 4})
 print(d)

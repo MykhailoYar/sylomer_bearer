@@ -5,9 +5,9 @@ def unique(l_gen):
     out = {}
     for i in l_gen[1::]:
         if i == l_gen[n]:
-            q[-1]+=1
+            q[-1] += 1
             out[str(i)] = q[-1]
         else:
             q.append(1)
-        n+=1
+        n += 1
     return out

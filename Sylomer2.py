@@ -1,21 +1,21 @@
-def Sylomer(length, width,dim_sr,boundary,numbers):
+def Sylomer(length, width, dim_sr, boundary, numbers):
     mark0 = length / width
-    x = [i for i in range(50, 1,-1)]
+    x = [i for i in range(50, 1, -1)]
     boundary_low = boundary[0]
-    boundary_high=boundary[1]
-    dim_sr2=[]
+    boundary_high = boundary[1]
+    dim_sr2 = []
     for i in dim_sr:
-        d1=[j for j in range(i,11*i,i)]
-        dim_sr2=dim_sr2+d1
-    dim_sr=sorted(set(dim_sr2))
+        d1 = [j for j in range(i, 11 * i, i)]
+        dim_sr2 = dim_sr2 + d1
+    dim_sr = sorted(set(dim_sr2))
     out = {}
-    inform=[]
+    inform = []
     for i in x:
         for j in x:
             d = [i, j]
             mark = round(j / i, 2)
-            if mark<1:
-            # if abs mark>1:
+            if mark < 1:
+                # if abs mark>1:
                 out_dim = f'{i} x {j}'
                 for f in dim_sr:
                     try:
@@ -27,7 +27,7 @@ def Sylomer(length, width,dim_sr,boundary,numbers):
                             d.append(f)
                     except ZeroDivisionError:
                         None
-                if  len(d)>2 and i*j<=numbers:
+                if len(d) > 2 and i * j <= numbers:
                     out[out_dim] = d
                     inform.append(d)
     # for v in out.items():
