@@ -92,4 +92,6 @@ def vibromat(l0, w, h, n, stype, coord, coor, ratio=0):
     u = general
     #
     # print(coor)
+    test = 0
     return [coor, u]
+
