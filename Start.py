@@ -1,5 +1,6 @@
 import math
 import re
+import os
 import tkinter as tk
 from tkinter import filedialog
 
@@ -12,8 +13,7 @@ from Sylomer2 import Sylomer as sr
 from drawing import drawing
 
 
-def start(l1, l2, mass, dim_sr, bh, energy, sylomer_type, \
-          thickness, numbers, price, from_file):
+def start(l1, l2, mass, dim_sr, bh, energy, sylomer_type, thickness, numbers, price, from_file):
     file = 'Load-Factor.txt'
 
     length = max(l1, l2)
@@ -73,38 +73,41 @@ def start(l1, l2, mass, dim_sr, bh, energy, sylomer_type, \
     return from_file
 
 
-def start2(dim_sr, bh, energy, sylomer_type, \
-           numbers, price):
+def comparison_table(dim_sr, all_distance, energy, sylomer_type, numbers, price):
+    """
+    Prepare comparison table
+    :param dim_sr: cutting step of material
+    :param all_distance: min and max allowed distance between bearings, mm
+    :param energy: min and max power of bearing, %
+    :param sylomer_type: list of SR marks
+    :param numbers: max possible numbers of bearings
+    :param price: current price euro/m2
+    :return:
+    """
+
+    # select and read file with data and convert it to DataFrame
     root = tk.Tk()
     root.update()
     root.filename = filedialog.askopenfilenames(initialdir='C:/Users/Acoustic Group/Desktop',
                                                 title='Оберіть шаблон для заповнення')
     root.destroy()
-    df = pandas.read_excel(list(root.filename)[0])
+    file_location = root.filename[0]
+    df = pandas.read_excel(file_location)
+    directory = os.path.dirname(file_location)
 
-    lis = list(root.filename)[0]
-    out = re.split(r'/?', lis)
-    print(out)
-    directory = ''
-    for i in out[0:-1]:
-        directory += i + '/'
-    print(directory)
+    # prepare for calculations
+    input_data = df.values
+    data_columns = input_data.shape[1]
+    y2 = data_columns
+    all = list()
 
-    print(list(root.filename)[0])
-
-    z = df.values
-    [x, y] = numpy.shape(z)
-    y2 = y
-    all = []
-    for from_file in z:
+    for from_file in input_data:
         if math.isnan(from_file[3]) == False:
             if numpy.shape(from_file) != (9,) and math.isnan(from_file[10]) == True:
                 print(from_file)
-
                 print('\n' + from_file[0] + ' Габарити:' + str(from_file[1]) + ' x ' + str(from_file[2]))
-                l1 = from_file[1]
-                l2 = from_file[2]
-                thickness = [from_file[8]]
+                l1, l2, thickness = from_file[1], from_file[2], [from_file[8]]
+
                 try:
                     b = re.split('\W+', thickness[0])
                     thickness = [int(i) for i in b]
@@ -112,7 +115,7 @@ def start2(dim_sr, bh, energy, sylomer_type, \
                     thickness = [from_file[8]]
                 mass = from_file[7]
                 from_file[6] = round(from_file[6] * 100, 0) / 100
-                from_file = start(l1, l2, mass, dim_sr, bh, energy, sylomer_type, \
+                from_file = start(l1, l2, mass, dim_sr, all_distance, energy, sylomer_type, \
                                   thickness, numbers, price, from_file)
 
             if numpy.shape(from_file) == (9,):
@@ -130,13 +133,13 @@ def start2(dim_sr, bh, energy, sylomer_type, \
                     thickness = [from_file[8]]
                 mass = from_file[7]
                 from_file[6] = round(from_file[6] * 100, 0) / 100
-                from_file = start(l1, l2, mass, dim_sr, bh, energy, sylomer_type, \
+                from_file = start(l1, l2, mass, dim_sr, all_distance, energy, sylomer_type, \
                                   thickness, numbers, price, from_file)
             all.append(from_file)
 
             if math.isnan(from_file[10]) == True:
                 y2 -= 1
-    if y2 == y:
+    if y2 == data_columns:
         Out = drawing(all, directory)
         out = Out[0]
         number = Out[1]
@@ -151,7 +154,7 @@ def start2(dim_sr, bh, energy, sylomer_type, \
             pdf_merger.write(f)
 
         print('here')
-        all.append(math.nan for i in range(0, y))
+        all.append(math.nan for i in range(0, data_columns))
         all = all + out
 
     dfc = list(df.columns)
