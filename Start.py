@@ -1,34 +1,42 @@
-import math
-import re
-import os
-import tkinter as tk
-from tkinter import filedialog
-
 import PyPDF2
+import math
 import numpy
+import os
 import pandas
-
+import re
+import tkinter as tk
 from Static import measure as ms
 from Sylomer2 import Sylomer as sr
 from drawing import drawing
+from tkinter import filedialog
 
 
-def start(l1, l2, mass, dim_sr, bh, energy, sylomer_type, thickness, numbers, price, from_file):
-    file = 'Load-Factor.txt'
+def selection(dims, mass, dim_sr, all_distance, energy, sylomer_type, thickness, numbers, price, from_file):
+    """
+    Select the best configuration
+    :param dim_sr: cutting step of material
+    :param all_distance: min and max allowed distance between bearings, mm
+    :param energy: min and max power of bearing, %
+    :param sylomer_type: list of SR marks
+    :param thickness: list of thicknesses in mm
+    :param numbers: max possible numbers of bearings
+    :param price: current price euro/m2
+    :param from_file: input data
+    :return: extended from file with selected configuration
+    """
 
-    length = max(l1, l2)
-    width = min(l1, l2)
-    inform = sr(length, width, dim_sr, bh, numbers)
+    length, width = max(dims), min(dims)
+    inform = sr(length, width, dim_sr, all_distance, numbers)
     out = numpy.empty((0, 9), dtype=int)
     for i in inform:
         number = i[0] * i[1]
         dim = i[2:len(i) + 1]
         numbers = i[0:2]
         for j in dim:
-            k = ms(j, j, number, mass, energy, thickness, file, \
-                   price, sylomer_type, numbers)
-            k2 = ms(j, width, i[0], mass, energy, thickness, file, \
-                    price, sylomer_type, numbers)
+            # square bearing
+            k = ms(j, j, number, mass, energy, thickness, price, sylomer_type, numbers)
+            # rectangular bearing
+            k2 = ms(j, width, i[0], mass, energy, thickness, price, sylomer_type, numbers)
             k = numpy.array(k + k2)
             for q in k:
                 out = numpy.vstack([out, q])
@@ -48,25 +56,19 @@ def start(l1, l2, mass, dim_sr, bh, energy, sylomer_type, thickness, numbers, pr
         out = numpy.concatenate((out, y.T), axis=1)
         out = out[out[:, 11].argsort()]
 
-        # print(y)
-        d2 = pandas.DataFrame({'SR': out[:, 0], 'Quantity': out[:, 1], \
-                               'Length': out[:, 2], 'Width': out[:, 3], \
-                               'Thickness': out[:, 4], \
-                               'Capacity': out[:, 5], 'Rows': out[:, 6], \
-                               'Columns': out[:, 7], 'Price': out[:, 8], \
-                               # })
-                               '#1': out[:, 9], '#2': out[:, 10], '#3': out[:, 11]})
-        d2 = d2.sort_values(by=['#3'])
-        # ascending = False
+        d2 = pandas.DataFrame({'SR': out[:, 0], 'Quantity': out[:, 1], 'Length': out[:, 2], 'Width': out[:, 3],
+                               'Thickness': out[:, 4], 'Capacity': out[:, 5], 'Rows': out[:, 6], 'Columns': out[:, 7],
+                               'Price': out[:, 8], 'Per capacity': out[:, 9], 'Per price': out[:, 10],
+                               'Combined rank': out[:, 11]})
+
+        d2 = d2.sort_values(by=['Combined rank'])
         pandas.set_option('display.expand_frame_repr', False)
 
         print(d2)
-        num = int((input('Номер рішення :')))
+        num = int((input('Number of configuration :')))
         des = d2.values
         from_file[9:13] = des[num][0:4]
         from_file[8] = des[num][4]
-        # des=numpy.array( [ des[0], des[1], des[2],des[3] ])
-        print(from_file)
     except ValueError:
         from_file = from_file[0:9]
 
@@ -82,14 +84,14 @@ def comparison_table(dim_sr, all_distance, energy, sylomer_type, numbers, price)
     :param sylomer_type: list of SR marks
     :param numbers: max possible numbers of bearings
     :param price: current price euro/m2
-    :return:
+    :return: file with selected configuration
     """
 
     # select and read file with data and convert it to DataFrame
     root = tk.Tk()
     root.update()
     root.filename = filedialog.askopenfilenames(initialdir='C:/Users/Acoustic Group/Desktop',
-                                                title='Оберіть шаблон для заповнення')
+                                                title='Select the Excel with input data')
     root.destroy()
     file_location = root.filename[0]
     df = pandas.read_excel(file_location)
@@ -101,73 +103,58 @@ def comparison_table(dim_sr, all_distance, energy, sylomer_type, numbers, price)
     y2 = data_columns
     all = list()
 
-    for from_file in input_data:
-        if math.isnan(from_file[3]) == False:
-            if numpy.shape(from_file) != (9,) and math.isnan(from_file[10]) == True:
-                print(from_file)
-                print('\n' + from_file[0] + ' Габарити:' + str(from_file[1]) + ' x ' + str(from_file[2]))
-                l1, l2, thickness = from_file[1], from_file[2], [from_file[8]]
+    for data_line in input_data:
 
-                try:
-                    b = re.split('\W+', thickness[0])
-                    thickness = [int(i) for i in b]
-                except TypeError:
-                    thickness = [from_file[8]]
-                mass = from_file[7]
-                from_file[6] = round(from_file[6] * 100, 0) / 100
-                from_file = start(l1, l2, mass, dim_sr, all_distance, energy, sylomer_type, \
-                                  thickness, numbers, price, from_file)
+        # print units name and dimensions
+        print('{source_name}, overall dimensions: {length}x{width} mm'.format(source_name=data_line[0],
+                                                                              length=data_line[1],
+                                                                              width=data_line[2]))
+        # match variables and input data
+        dims, mass, thickness = data_line[1:3], data_line[7], [float(x.strip()) for x in str(data_line[8]).split(',')]
+        # round mass ratio
+        data_line[6] = round(data_line[6], 2)
 
-            if numpy.shape(from_file) == (9,):
-                from_file = numpy.append(from_file, numpy.array([0, 0, 0, 0]))
-                print(from_file)
+        # if not enough input data or configuration of vibration insulation material were done before
+        if numpy.shape(data_line) != (9, ) and math.isnan(data_line[10]):
+            data_line = selection(dims, mass, dim_sr, all_distance, energy, sylomer_type, thickness, numbers, price,
+                              data_line)
 
-                print('\n' + from_file[0] + ' Габарити:' + str(from_file[1]) + ' x ' + str(from_file[2]))
-                l1 = from_file[1]
-                l2 = from_file[2]
-                thickness = [from_file[8]]
-                try:
-                    b = re.split('\W+', thickness[0])
-                    thickness = [int(i) for i in b]
-                except TypeError:
-                    thickness = [from_file[8]]
-                mass = from_file[7]
-                from_file[6] = round(from_file[6] * 100, 0) / 100
-                from_file = start(l1, l2, mass, dim_sr, all_distance, energy, sylomer_type, \
-                                  thickness, numbers, price, from_file)
-            all.append(from_file)
+        # run if no selected configuration were selected before
+        if numpy.shape(data_line) == (9, ):
+            data_line = numpy.append(data_line, numpy.array([0, 0, 0, 0]))
+            data_line = selection(dims, mass, dim_sr, all_distance, energy, sylomer_type, thickness, numbers, price,
+                              data_line)
 
-            if math.isnan(from_file[10]) == True:
-                y2 -= 1
+        all.append(data_line)
+
+        if math.isnan(data_line[10]) == True:
+            y2 -= 1
+
     if y2 == data_columns:
-        Out = drawing(all, directory)
-        out = Out[0]
-        number = Out[1]
-        pdf_merger = PyPDF2.PdfFileMerger()
+        # Out = drawing(all, directory)
+        # out = Out[0]
+        # number = Out[1]
+        # pdf_merger = PyPDF2.PdfFileMerger()
+        #
+        # for i in range(1, number):
+        #     with open(directory + '#' + str(i) + '.pdf', 'rb') as f:
+        #         _ = PyPDF2.PdfFileReader(f)
+        #         pdf_merger.append(fileobj=f)
+        # # writing combined pdf to output pdf file
+        # with open(directory + 'Placement of the material.pdf', 'wb') as f:
+        #     pdf_merger.write(f)
 
-        for i in range(1, number):
-            with open(directory + '#' + str(i) + '.pdf', 'rb') as f:
-                reader = PyPDF2.PdfFileReader(f)
-                pdf_merger.append(fileobj=f)
-        # writing combined pdf to output pdf file
-        with open(directory + 'Розкладка.pdf', 'wb') as f:
-            pdf_merger.write(f)
-
-        print('here')
-        all.append(math.nan for i in range(0, data_columns))
-        all = all + out
+        all.append(math.nan for _ in range(0, data_columns))
+        # all = all + out
 
     dfc = list(df.columns)
-    if len(dfc) == 9:  dfc = dfc + ['Sylomer SR', 'Кількість опор', 'Ширина, мм', 'Довжина, мм']
+    if len(dfc) == 9:
+        dfc = dfc + ['Sylomer SR', 'Amount of bearings', 'Width, mm', 'Length, mm']
     df = pandas.DataFrame(all, columns=dfc)
 
     root = tk.Tk()
     root.update()
-    root.filename = filedialog.asksaveasfilename(initialdir=directory, title="Збереження заповненого шаблону",
+    root.filename = filedialog.asksaveasfilename(initialdir=directory, title="Saving",
                                                  defaultextension='.xlsx')
-
     root.destroy()
-
-    print(root.filename)
-
     df.to_excel(root.filename, index=False)

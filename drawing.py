@@ -5,13 +5,7 @@ from vibromat_super import vibromat
 
 
 def drawing(all, directory):
-    s28 = []
-    s42 = []
-    s55 = []
-    s110 = []
-    s220 = []
-    s850 = []
-    s1200 = []
+    s28, s42, s55, s110, s220, s850, s1200 = [], [], [], [], [], [], []
     for a in all:
         if int(a[9]) == 28: s28.append(a[8::])
         if int(a[9]) == 42: s42.append(a[8::])
