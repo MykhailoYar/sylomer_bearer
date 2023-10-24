@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85f3cff1-cd9f-4790-8972-12e4c15483bf" name="Changes" comment="refactor, add comments">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="85f3cff1-cd9f-4790-8972-12e4c15483bf" name="Changes" comment="move files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Start.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculation/start.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Static.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculation/static.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sylomer2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attempt.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/draw.py" beforeDir="false" afterPath="$PROJECT_DIR$/drawing/draw.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/drawing.py" beforeDir="false" afterPath="$PROJECT_DIR$/drawing/drawing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noisemeter.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uniquefunc.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vibromat.py" beforeDir="false" afterPath="$PROJECT_DIR$/vibromat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vibromat_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/vibromat_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vibromat_super.py" beforeDir="false" afterPath="$PROJECT_DIR$/drawing/vibromat_super.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calculation/static.py" beforeDir="false" afterPath="$PROJECT_DIR$/calculation/static.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,8 +41,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/drawing" />
       <recent name="$PROJECT_DIR$/calculation" />
+      <recent name="$PROJECT_DIR$/drawing" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -104,7 +88,7 @@
       <workItem from="1698091193411" duration="717000" />
       <workItem from="1698126476369" duration="5038000" />
       <workItem from="1698141997253" duration="12796000" />
-      <workItem from="1698163030292" duration="2335000" />
+      <workItem from="1698163030292" duration="2889000" />
     </task>
     <task id="LOCAL-00001" summary="refactor, add comments">
       <created>1698158700062</created>
@@ -113,7 +97,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698158700062</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="move files">
+      <created>1698165613028</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698165613028</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,7 +123,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="refactor, add comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor, add comments" />
+    <MESSAGE value="move files" />
+    <option name="LAST_COMMIT_MESSAGE" value="move files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -142,10 +134,15 @@
           <line>36</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/calculation/static.py</url>
+          <line>17</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/run_py$run.coverage" NAME="run Coverage Results" MODIFIED="1698165293666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/run_py$run.coverage" NAME="run Coverage Results" MODIFIED="1698166023250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

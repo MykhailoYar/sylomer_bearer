@@ -1,7 +1,8 @@
 import numpy
+import os
 
 g = 9.81
-file_data = 'Load-Factor.txt'
+file_data = os.path.join(os.path.dirname(__file__), 'Load-Factor.txt')
 
 def measure(length, width, n, m, energy, thickness, price, sr, inform):
 
