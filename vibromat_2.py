@@ -1,12 +1,13 @@
-w = \
-    [78, 131, 107, 64, 127, 169, 156, 125, 144, "в37"]
+import numpy as np
 
-answer = [];
+w = [78, 131, 107, 64, 127, 169, 156, 125, 144, "в37"]
+
+answer = []
 
 print(w[-1])
 print([])
-loadf = [];
-import numpy as np
+loadf = []
+
 
 for i in range(0, len(w) - 1):
     load = w[i] / 4

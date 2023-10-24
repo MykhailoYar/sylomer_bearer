@@ -1,11 +1,8 @@
-w = \
-    [78, 131, 107, 64, 127, 169, 156, 125, 144]
-
-answer = []
-
-capa = []
-loadf = []
 import numpy as np
+
+w = [78, 131, 107, 64, 127, 169, 156, 125, 144]
+
+answer, capa, loadf = [], [], []
 
 for i in range(0, len(w) + 1):
     if i == 0:

@@ -1,4 +1,4 @@
-from Start import comparison_table
+from calculation.start import comparison_table
 
 # building design rules
 numbers = 99                            # max possible numbers of bearings
