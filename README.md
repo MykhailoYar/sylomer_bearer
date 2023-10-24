@@ -1,7 +1,7 @@
 # sylomer_bearings
 Tool for faster designing of vibration insulation solutions
 
-# Why it had been created? 
+# Why it has been created?
 
 In the position of acoustic engineer at Acoustic Group Ukraine, one of my routine tasks was a selection of vibration isolation supports depending on the size and mass of the source of vibration (HVAC units or similar equipment) and the working frequency of its engine. I decided to collect open-source data on the physical properties of vibration insulation materials and implement local building design rules to significantly decrease the selection time of the best possible configuration of vibration insulation materials under the source of vibration. 
 
