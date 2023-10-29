@@ -1,4 +1,4 @@
-# sylomer_bearings
+# sylomer_bearers
 Tool for faster designing of vibration insulation solutions
 
 # Why it has been created?
@@ -9,7 +9,7 @@ In the position of acoustic engineer at Acoustic Group Ukraine, one of my routin
 
 ## Step 1. Design limits
 
-The user has to check building design rules (allowed distance between bearings, maximum possible numbers of bearings), acoustic limits (maximum and minimum allowed power of bearings under the load), and take into the account list of available Sylomer marks that he has at the warehouse and define a list of possible cutting step size of the vibration insulation material.
+The user has to check building design rules (allowed distance between bearings, maximum possible numbers of bearers), acoustic limits (maximum and minimum allowed power of bearers under the load), and take into the account list of available Sylomer marks that he has at the warehouse and define a list of possible cutting step size of the vibration insulation material.
 
 ## Step 2. Input data
 
@@ -20,7 +20,7 @@ The user has to prepare an Excel file with the next data for each source of vibr
 - mass of the concrete basement
 - the ratio of concrete basement mass and mass of the source of vibration
 - the load on Sylomer bearings as a sum of the mass of the concrete basement and the mass of the source of vibration
-- the possible height of the Sylomer bearings in mm (separated by a comma if it is needed)
+- the possible height of the Sylomer bearers in mm (separated by a comma if it is needed)
 
 After the execution of the [run.py](https://github.com/MykhailoYar/sylomer_bearings/blob/main/run.py) script and selection of the Excel input data file user can see the name and dimensions of the source of vibration and a table of possible configurations of vibration insulation materials under the source of vibration and concrete basement that fulfill the design limits. 
 
